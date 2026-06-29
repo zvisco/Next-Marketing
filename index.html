@@ -142,7 +142,15 @@
   .foot-links a:hover { color: var(--text); }
 
   @media (max-width: 760px) {
-    .nav-links a.txt { display: none; }
+    /* Keep Privacy + Support reachable from the top bar on phones; only drop the in-page Features
+       anchor and tighten spacing so the row still fits. */
+    .nav-links .nav-sm-hide { display: none; }
+    .nav-links { gap: 2px; }
+    .nav-links a.txt { padding: 8px 8px; font-size: 14px; }
+    .nav-links .btn-primary { padding: 9px 13px; }
+    .nav-in { gap: 6px; }
+    .brand { font-size: 18px; gap: 8px; }
+    .brand .mark-img { width: 32px; height: 32px; }
     .cards { grid-template-columns: 1fr; }
     .row { grid-template-columns: 1fr; gap: 22px; }
     .row:nth-child(even) .row-img { order: 0; }
@@ -156,7 +164,7 @@
   <div class="wrap nav-in">
     <a class="brand" href="#top"><img class="mark-img" src="assets/icon.png" alt="Next app icon"> Next</a>
     <nav class="nav-links">
-      <a class="txt" href="#features">Features</a>
+      <a class="txt nav-sm-hide" href="#features">Features</a>
       <a class="txt" href="privacy.html">Privacy</a>
       <a class="txt" href="support.html">Support</a>
       <a class="btn btn-primary" href="https://apps.apple.com/app/id000000000">Download</a>
