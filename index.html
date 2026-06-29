@@ -3,68 +3,341 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Next — Privacy Policy</title>
+<title>Next — Calendar + to-dos for macOS</title>
+<meta name="description" content="Next is a fast, private calendar and to-do app for your Mac. Add plans in plain English, see everything in one place, and keep all your data on your device.">
+<link rel="icon" href="assets/icon.png">
+
+<!-- Open Graph / social cards -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Next — Calendar + to-dos for macOS">
+<meta property="og:description" content="A fast, private calendar and to-do app for your Mac. Type plans in plain English, see everything in one place, and keep all your data on your device.">
+<meta property="og:image" content="assets/shots/1-week-light.png">
+<meta name="twitter:card" content="summary_large_image">
+
 <style>
-  :root { color-scheme: light dark; }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; padding: 48px 20px 80px;
-    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    color: #1c1b1f; background: #faf9fc;
-    -webkit-font-smoothing: antialiased;
+  :root {
+    color-scheme: light dark;
+    --bg: #faf9fc; --bg-2: #ffffff; --surface: #ffffff;
+    --text: #1c1b1f; --muted: #65636d; --border: #e7e6ec;
+    --accent: #5b6cff; --accent-2: #8b5cf6; --accent-ink: #4b54d8;
+    --tint: rgba(91,108,255,.10);
+    --shadow: 0 18px 50px rgba(40,38,70,.14);
+    --shadow-sm: 0 6px 20px rgba(40,38,70,.10);
+    --grad: linear-gradient(135deg, #5b6cff, #8b5cf6);
   }
-  .wrap { max-width: 680px; margin: 0 auto; }
-  .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
-  .mark { width: 34px; height: 34px; border-radius: 9px;
-    background: linear-gradient(135deg, #5b6cff, #8b5cf6); display: grid; place-items: center;
-    color: #fff; font-weight: 800; font-size: 18px; }
-  h1 { font-size: 30px; margin: 24px 0 2px; letter-spacing: -0.02em; }
-  .updated { color: #6b6a72; font-size: 14px; margin: 0 0 32px; }
-  h2 { font-size: 17px; margin: 30px 0 6px; letter-spacing: -0.01em; }
-  p { margin: 6px 0; }
-  a { color: #5b6cff; }
-  .tag { display: inline-block; margin-top: 6px; padding: 3px 11px; border-radius: 999px;
-    background: rgba(91,108,255,.12); color: #4b54d8; font-size: 13px; font-weight: 600; }
-  footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid #e7e6ec; color: #6b6a72; font-size: 14px; }
   @media (prefers-color-scheme: dark) {
-    body { color: #e6e1e9; background: #131218; }
-    .updated, footer { color: #9a98a3; }
-    footer { border-top-color: #2a2930; }
-    .tag { background: rgba(139,124,255,.18); color: #b9a8ff; }
+    :root {
+      --bg: #0f0e14; --bg-2: #16151d; --surface: #1a1922;
+      --text: #e9e5ef; --muted: #a09eaa; --border: #2a2930;
+      --accent: #8b9bff; --accent-2: #b09bff; --accent-ink: #b9c2ff;
+      --tint: rgba(139,124,255,.14);
+      --shadow: 0 18px 50px rgba(0,0,0,.55);
+      --shadow-sm: 0 6px 20px rgba(0,0,0,.45);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text); background: var(--bg);
+    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  }
+  a { color: var(--accent-ink); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  img { max-width: 100%; display: block; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 22px; }
+
+  /* ── Nav ─────────────────────────────────────────── */
+  header.nav { position: sticky; top: 0; z-index: 20;
+    backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    border-bottom: 1px solid var(--border); }
+  .nav-in { display: flex; align-items: center; justify-content: space-between; height: 62px; }
+  .brand { display: flex; align-items: center; gap: 11px; font-weight: 700; font-size: 17px; color: var(--text); }
+  .brand:hover { text-decoration: none; }
+  .mark { width: 30px; height: 30px; border-radius: 8px; background: var(--grad);
+    display: grid; place-items: center; color: #fff; font-weight: 800; font-size: 16px;
+    box-shadow: 0 3px 10px rgba(91,108,255,.4); }
+  .nav-links { display: flex; align-items: center; gap: 8px; }
+  .nav-links a.txt { color: var(--muted); font-weight: 600; font-size: 14.5px; padding: 8px 12px; border-radius: 9px; }
+  .nav-links a.txt:hover { color: var(--text); background: var(--tint); text-decoration: none; }
+
+  .btn { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; cursor: pointer;
+    border-radius: 999px; padding: 10px 18px; font-size: 14.5px; border: 1px solid transparent; }
+  .btn-primary { background: var(--grad); color: #fff; box-shadow: 0 6px 18px rgba(91,108,255,.4); }
+  .btn-primary:hover { text-decoration: none; filter: brightness(1.05); transform: translateY(-1px); }
+  .btn-ghost { background: var(--surface); color: var(--text); border-color: var(--border); }
+  .btn-ghost:hover { text-decoration: none; border-color: var(--accent); color: var(--accent-ink); }
+
+  /* App Store badge button */
+  .as-badge { display: inline-flex; align-items: center; gap: 11px; background: #000; color: #fff;
+    border-radius: 13px; padding: 11px 18px; min-width: 210px; }
+  @media (prefers-color-scheme: dark) { .as-badge { background: #fff; color: #000; } }
+  .as-badge:hover { text-decoration: none; transform: translateY(-1px); }
+  .as-badge svg { width: 26px; height: 26px; flex: 0 0 auto; }
+  .as-badge .l1 { font-size: 11px; line-height: 1.1; opacity: .9; }
+  .as-badge .l2 { font-size: 18px; line-height: 1.15; font-weight: 600; letter-spacing: -.01em; }
+
+  /* ── Hero ────────────────────────────────────────── */
+  .hero { text-align: center; padding: 76px 0 0; }
+  .eyebrow { display: inline-block; font-size: 13px; font-weight: 700; letter-spacing: .02em;
+    color: var(--accent-ink); background: var(--tint); padding: 6px 14px; border-radius: 999px; }
+  h1 { font-size: clamp(36px, 6vw, 60px); line-height: 1.05; letter-spacing: -.03em;
+    margin: 22px auto 0; max-width: 16ch; font-weight: 800; }
+  h1 .g { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .sub { font-size: clamp(17px, 2.4vw, 20px); color: var(--muted); max-width: 56ch; margin: 20px auto 0; }
+  .cta { display: flex; gap: 14px; justify-content: center; align-items: center; flex-wrap: wrap; margin: 30px 0 14px; }
+  .trust { color: var(--muted); font-size: 13.5px; font-weight: 600; }
+  .trust b { color: var(--accent-ink); }
+
+  .hero-shot { margin: 46px auto 0; max-width: 980px; }
+  .frame { border-radius: 16px; border: 1px solid var(--border); overflow: hidden;
+    box-shadow: var(--shadow); background: var(--surface); }
+  .hero-shot .frame { border-radius: 18px; }
+
+  /* ── Section scaffolding ─────────────────────────── */
+  section { padding: 72px 0; }
+  .sec-head { text-align: center; max-width: 60ch; margin: 0 auto 8px; }
+  h2 { font-size: clamp(26px, 4vw, 38px); letter-spacing: -.02em; margin: 0; font-weight: 800; }
+  .sec-head p { color: var(--muted); font-size: 18px; margin: 14px auto 0; }
+
+  /* Feature cards */
+  .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 44px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 26px; box-shadow: var(--shadow-sm); }
+  .card .ic { width: 44px; height: 44px; border-radius: 12px; background: var(--tint);
+    display: grid; place-items: center; color: var(--accent-ink); margin-bottom: 16px; }
+  .card .ic svg { width: 24px; height: 24px; }
+  .card h3 { margin: 0 0 6px; font-size: 18.5px; letter-spacing: -.01em; }
+  .card p { margin: 0; color: var(--muted); font-size: 15px; }
+  .card code { background: var(--tint); color: var(--accent-ink); padding: 1px 6px; border-radius: 6px;
+    font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+  /* Alternating feature rows */
+  .rows { display: flex; flex-direction: column; gap: 30px; margin-top: 44px; }
+  .row { display: grid; grid-template-columns: 1.1fr 1fr; gap: 44px; align-items: center; }
+  .row:nth-child(even) .row-img { order: -1; }
+  .row-text h3 { font-size: clamp(22px, 3vw, 28px); letter-spacing: -.02em; margin: 0 0 12px; }
+  .row-text p { color: var(--muted); font-size: 16.5px; margin: 0; }
+  .row-img .frame { box-shadow: var(--shadow-sm); }
+
+  /* Dark-mode band */
+  .band { background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .band .frame { max-width: 900px; margin: 40px auto 0; }
+
+  /* Privacy callout */
+  .privacy-cta { text-align: center; }
+  .privacy-cta .seal { width: 56px; height: 56px; border-radius: 16px; background: var(--tint);
+    display: grid; place-items: center; color: var(--accent-ink); margin: 0 auto 18px; }
+  .privacy-cta .seal svg { width: 30px; height: 30px; }
+
+  /* Final CTA */
+  .final { text-align: center; }
+  .final .mark { width: 60px; height: 60px; border-radius: 16px; font-size: 30px; margin: 0 auto 22px; }
+
+  footer { border-top: 1px solid var(--border); padding: 34px 0 50px; color: var(--muted); font-size: 14px; }
+  .foot-in { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .foot-links { display: flex; gap: 18px; flex-wrap: wrap; }
+  .foot-links a { color: var(--muted); font-weight: 600; }
+  .foot-links a:hover { color: var(--text); }
+
+  @media (max-width: 760px) {
+    .nav-links a.txt { display: none; }
+    .cards { grid-template-columns: 1fr; }
+    .row { grid-template-columns: 1fr; gap: 22px; }
+    .row:nth-child(even) .row-img { order: 0; }
+    section { padding: 56px 0; }
   }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="brand"><div class="mark">N</div><strong>Next</strong></div>
-  <h1>Privacy Policy</h1>
-  <p class="updated">Last updated: June 2026</p>
 
-  <p>Next is a local-first calendar and to-do app for macOS, built to keep your data on your device.</p>
-  <p><span class="tag">No accounts · No tracking · No servers</span></p>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top"><span class="mark">N</span> Next</a>
+    <nav class="nav-links">
+      <a class="txt" href="#features">Features</a>
+      <a class="txt" href="privacy.html">Privacy</a>
+      <a class="txt" href="support.html">Support</a>
+      <a class="btn btn-primary" href="https://apps.apple.com/app/id000000000">Download</a>
+    </nav>
+  </div>
+</header>
 
-  <h2>Data we collect</h2>
-  <p>None. Next has no servers, no account system, and no analytics or tracking. We do not collect, store, or transmit your personal information.</p>
+<a id="top"></a>
+<main>
+  <!-- ── Hero ─────────────────────────────────────── -->
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow">Calendar + to-dos for macOS</span>
+      <h1>Your whole day, <span class="g">in one calm place.</span></h1>
+      <p class="sub">Next is a fast, private calendar and to-do app for your Mac. Type plans in plain
+        English, see events and tasks together, and keep all your data on your device.</p>
+      <div class="cta">
+        <a class="as-badge" href="https://apps.apple.com/app/id000000000">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.36 12.93c-.02-2.2 1.8-3.26 1.88-3.31-1.02-1.5-2.62-1.7-3.18-1.72-1.35-.14-2.64.79-3.33.79-.69 0-1.74-.77-2.86-.75-1.47.02-2.83.85-3.58 2.17-1.53 2.65-.39 6.57 1.1 8.72.73 1.05 1.6 2.23 2.74 2.19 1.1-.04 1.52-.71 2.85-.71 1.33 0 1.7.71 2.86.69 1.18-.02 1.93-1.07 2.65-2.13.84-1.22 1.18-2.4 1.2-2.46-.03-.01-2.3-.88-2.32-3.48zM14.2 6.18c.6-.73 1.01-1.74.9-2.75-.87.04-1.93.58-2.56 1.31-.56.64-1.05 1.67-.92 2.65.97.08 1.97-.49 2.58-1.21z"/></svg>
+          <span><span class="l1">Download on the</span><br><span class="l2">Mac App Store</span></span>
+        </a>
+        <a class="btn btn-ghost" href="#features">See what it does</a>
+      </div>
+      <p class="trust">No accounts · No tracking · No servers — <b>your data never leaves your Mac</b></p>
 
-  <h2>Your calendar and reminders</h2>
-  <p>With your permission, Next reads and writes events and reminders in your Mac's built-in Calendar and Reminders apps via Apple's EventKit framework. This data stays on your device and within the Apple, iCloud, Google, or Outlook accounts you've configured in macOS System Settings. Next never sends it to us or to any third party.</p>
+      <div class="hero-shot">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="assets/shots/1-week-dark.png">
+          <img class="frame" src="assets/shots/1-week-light.png" width="1760" height="1100"
+               alt="Next's week view showing events laid out across a time grid">
+        </picture>
+      </div>
+    </div>
+  </section>
 
-  <h2>Location search</h2>
-  <p>When you type a location for an event, Next sends that text to Apple Maps (MapKit) to fetch address suggestions. This request is handled by Apple under <a href="https://www.apple.com/legal/privacy/">Apple's Privacy Policy</a>, and it is the app's only network request.</p>
+  <!-- ── Feature cards ────────────────────────────── -->
+  <section id="features">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Everything you track, finally together</h2>
+        <p>Events and to-dos in one place — quick to add, easy to read, and entirely yours.</p>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
+          <h3>Type it naturally</h3>
+          <p>Just write what's on your mind. <code>Lunch with Sam 1pm Friday #Work</code> becomes a real
+            event — dates, times, durations, lists and recurrence, all understood as you type.</p>
+        </div>
+        <div class="card">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 4.4-3.1 7.9-8 9-4.9-1.1-8-4.6-8-9V7z"/></svg></div>
+          <h3>Private by design</h3>
+          <p>Next works directly with your Mac's built-in Calendar and Reminders. No account to create,
+            no servers, no analytics — nothing is ever sent to us.</p>
+        </div>
+        <div class="card">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></div>
+          <h3>Every view you need</h3>
+          <p>Switch between Week, Month, Agenda, and a dedicated Tasks board — each one drawn in your real
+            calendar colors, in light or dark mode.</p>
+        </div>
+        <div class="card">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+          <h3>Tasks that keep up</h3>
+          <p>Give to-dos a priority and due date, snooze them with a click, and set them to repeat.
+            Group your list by date, list, or priority.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <h2>Third parties</h2>
-  <p>We share no data with third parties, because we collect none.</p>
+  <!-- ── Feature rows ─────────────────────────────── -->
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="rows">
 
-  <h2>Children</h2>
-  <p>Next collects no data from anyone, including children.</p>
+        <div class="row">
+          <div class="row-text">
+            <h3>A calendar that moves at your pace</h3>
+            <p>Drag an event to reschedule, pinch to zoom the day in or out, and let overlapping meetings
+              split into clean side-by-side columns. The week always fills the screen — no dead space.</p>
+          </div>
+          <div class="row-img">
+            <img class="frame" src="assets/shots/1-week-light.png" width="1760" height="1100"
+                 alt="Week view with events arranged on a time grid">
+          </div>
+        </div>
 
-  <h2>Changes</h2>
-  <p>We may update this policy from time to time; any updates will be posted on this page.</p>
+        <div class="row">
+          <div class="row-text">
+            <h3>Add anything in seconds</h3>
+            <p>The quick-add bar previews exactly what it will create as you type — the date, time, list,
+              and a calendar to pick from — so you can capture a plan and move on.</p>
+          </div>
+          <div class="row-img">
+            <img class="frame" src="assets/shots/5-quickadd-light.png" width="1760" height="1100"
+                 alt="Quick-add preview parsing a natural-language event">
+          </div>
+        </div>
 
-  <h2>Contact</h2>
-  <p>Questions? Email <a href="mailto:zviscodev@gmail.com">zviscodev@gmail.com</a>.</p>
+        <div class="row">
+          <div class="row-text">
+            <h3>Your to-dos, organized</h3>
+            <p>A focused Tasks board groups everything by date, list, or priority — with overdue, today,
+              tomorrow and upcoming always clear at a glance, and completed work one toggle away.</p>
+          </div>
+          <div class="row-img">
+            <img class="frame" src="assets/shots/4-tasks-light.png" width="1760" height="1100"
+                 alt="Tasks board grouped by date with priority tags">
+          </div>
+        </div>
 
-  <footer>© 2026 Zachary Visco · Next for macOS</footer>
-</div>
+        <div class="row">
+          <div class="row-text">
+            <h3>See the big picture</h3>
+            <p>Zoom out to the Month for the shape of your weeks, or scroll the Agenda for a clean,
+              chronological list of what's coming — events and tasks side by side.</p>
+          </div>
+          <div class="row-img">
+            <img class="frame" src="assets/shots/2-month-light.png" width="1760" height="1100"
+                 alt="Month view with event dots and bars across the grid">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Dark mode band ───────────────────────────── -->
+  <section class="band">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Looks great, day or night</h2>
+        <p>Light, dark, or follow your system automatically. Either way, your calendar and list colors
+          come straight from macOS.</p>
+      </div>
+      <img class="frame" src="assets/shots/1-week-dark.png" width="1760" height="1100"
+           alt="Next's week view in dark mode">
+    </div>
+  </section>
+
+  <!-- ── Privacy callout ──────────────────────────── -->
+  <section class="privacy-cta">
+    <div class="wrap">
+      <div class="seal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 4.4-3.1 7.9-8 9-4.9-1.1-8-4.6-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></div>
+      <h2>Your calendar stays yours</h2>
+      <p class="sub">Next has no servers and no account system. It reads and writes your events and reminders
+        locally through Apple's EventKit — the only thing it ever sends over the network is the location text
+        you type, to Apple Maps, for address suggestions.</p>
+      <p style="margin-top:18px"><a href="privacy.html">Read the full privacy policy →</a></p>
+    </div>
+  </section>
+
+  <!-- ── Final CTA ────────────────────────────────── -->
+  <section class="final band">
+    <div class="wrap">
+      <div class="mark">N</div>
+      <h2>Bring your day together</h2>
+      <p class="sub">Next is a one-time purchase on the Mac App Store. No subscription, no catch.</p>
+      <div class="cta">
+        <a class="as-badge" href="https://apps.apple.com/app/id000000000">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.36 12.93c-.02-2.2 1.8-3.26 1.88-3.31-1.02-1.5-2.62-1.7-3.18-1.72-1.35-.14-2.64.79-3.33.79-.69 0-1.74-.77-2.86-.75-1.47.02-2.83.85-3.58 2.17-1.53 2.65-.39 6.57 1.1 8.72.73 1.05 1.6 2.23 2.74 2.19 1.1-.04 1.52-.71 2.85-.71 1.33 0 1.7.71 2.86.69 1.18-.02 1.93-1.07 2.65-2.13.84-1.22 1.18-2.4 1.2-2.46-.03-.01-2.3-.88-2.32-3.48zM14.2 6.18c.6-.73 1.01-1.74.9-2.75-.87.04-1.93.58-2.56 1.31-.56.64-1.05 1.67-.92 2.65.97.08 1.97-.49 2.58-1.21z"/></svg>
+          <span><span class="l1">Download on the</span><br><span class="l2">Mac App Store</span></span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <span>© 2026 Zachary Visco · Next for macOS</span>
+    <nav class="foot-links">
+      <a href="#features">Features</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="support.html">Support</a>
+      <a href="mailto:zviscodev@gmail.com">Contact</a>
+    </nav>
+  </div>
+</footer>
+
 </body>
 </html>
